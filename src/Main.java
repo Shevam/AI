@@ -24,7 +24,6 @@ import net.sf.javaml.classification.tree.RandomForest;
 
 import net.sf.javaml.classification.evaluation.PerformanceMeasure;
 
-//@SuppressWarnings("unused")
 public class Main {
 	public enum classifier { KNN, NB, RT };
 	
