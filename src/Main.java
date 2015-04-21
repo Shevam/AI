@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import net.sf.javaml.core.Dataset;
 import net.sf.javaml.core.Instance;
@@ -14,6 +15,7 @@ import net.sf.javaml.classification.SOM;
 import net.sf.javaml.classification.ZeroR;
 import net.sf.javaml.classification.bayes.NaiveBayesClassifier;
 import net.sf.javaml.classification.bayes.KDependentBayesClassifier; // Gives error
+import net.sf.javaml.classification.evaluation.EvaluateDataset;
 import net.sf.javaml.classification.evaluation.PerformanceMeasure;
 import net.sf.javaml.classification.meta.Bagging;
 import net.sf.javaml.classification.meta.SimpleBagging;
@@ -27,10 +29,9 @@ public class Main {
 	public enum Classifiers {
 		KNearestNeighbors, KDtreeKNN, MeanFeatureVotingClassifier, NearestMeanClassifier,
 		SOM, ZeroR, NaiveBayesClassifier, KDependentBayesClassifier, Bagging, SimpleBagging,
-		PerformanceMeasure, RandomTree, RandomForest
-		
+		RandomTree, RandomForest
 	};
-
+	
 	public static void main(String args[]) throws IOException {
 		Classifiers methodToUse;
 		String trainingSetPath = "data/iris.data";
@@ -38,11 +39,11 @@ public class Main {
 		int noOfAttributes = 4;
 		int classValueIndex = 4;
 		String fieldSeparator = ",";
-
+		
 		Dataset trainingSet = FileHandler.loadDataset(new File(trainingSetPath), classValueIndex, fieldSeparator);
 		Dataset testingSet = FileHandler.loadDataset(new File(testingSetPath), classValueIndex, fieldSeparator);
 
-		methodToUse = Classifiers.SimpleBagging;
+		methodToUse = Classifiers.KNearestNeighbors;
 
 		switch (methodToUse) {
 		case KNearestNeighbors:
@@ -75,9 +76,6 @@ public class Main {
 		case SimpleBagging:
 			SimpleBagging(trainingSet, testingSet);
 			break;
-		case PerformanceMeasure:
-			//PerformanceMeasure(trainingSet, testingSet);
-			break;
 		case RandomTree:
 			RandomTree(trainingSet, testingSet, noOfAttributes);
 			break;
@@ -85,38 +83,39 @@ public class Main {
 			RandomForest(trainingSet, testingSet, noOfAttributes);
 			break;
 		default:
-			break;
+			System.out.println("Please choose a classifier!");
 		}
 	}
 
 	public static void KNNClassifier(Dataset trainingSet, Dataset testingSet) throws IOException {
 		Classifier knn;
-		int correct, wrong;
-		Object predictedClassValue, realClassValue;
-
+		PerformanceMeasure pm;
+		
 		System.out.println("KNN Classifier");
 
 		knn = new KNearestNeighbors(5);
 		knn.buildClassifier(trainingSet);
-
-		correct = 0;
-		wrong = 0;
-		for (Instance inst : testingSet) {
-			predictedClassValue = knn.classify(inst);
-			realClassValue = inst.classValue();
-
-			System.out.println(predictedClassValue + ":" + realClassValue);
-
-			if (predictedClassValue.equals(realClassValue))
-				correct++;
-			else
-				wrong++;
+		
+		Map<Object, PerformanceMeasure> performanceMeasureMap = EvaluateDataset.testDataset(knn, testingSet);
+		for(Object classVariable:performanceMeasureMap.keySet()) {
+			pm = performanceMeasureMap.get(classVariable);
+			System.out.println();
+			System.out.println("Class variable: "+classVariable);
+			System.out.println("Number of true positive: "+pm.tp);
+			System.out.println("Number of false positive: "+pm.fp);
+			System.out.println("Number of true negative: "+pm.tn);
+			System.out.println("Number of false negative: "+pm.fn);
+			System.out.println("Accuracy: "+pm.getAccuracy());
+			System.out.println("Correlation: "+pm.getCorrelation());
+			System.out.println("Correlation Coefficient: "+pm.getCorrelationCoefficient());
+			System.out.println("Error rate: "+pm.getErrorRate());
+			System.out.println("F-Measure: "+pm.getFMeasure());
+			System.out.println("Precision: "+pm.getPrecision());
+			System.out.println("Recall: "+pm.getRecall());
+			System.out.println("Cost: "+pm.getCost());
 		}
-		System.out.println("Correct predictions: " + correct);
-		System.out.println("Wrong predictions: " + wrong);
-		System.out.println("Accuracy: " + (float) correct / (correct + wrong));
 	}
-
+	
 	public static void KDtreeKNNClassifier(Dataset trainingSet, Dataset testingSet) throws IOException {
 		Classifier kdtknn;
 		int correct, wrong;
