@@ -34,8 +34,8 @@ public class Main {
 	};
 	
 	public static void main(String args[]) throws IOException {
-		String trainingSetPath = "data/iris.data";
-		String testingSetPath = "data/iris.data";
+		String trainingSetPath = "data/iris.train";
+		String testingSetPath = "data/iris.test";
 		int noOfAttributes = 4;
 		int classValueIndex = 4;
 		String fieldSeparator = ",";
@@ -57,7 +57,7 @@ public class Main {
 		//listOfClassifierToRun.add(classifiers.Bagging);
 		//listOfClassifierToRun.add(classifiers.SimpleBagging);
 		//listOfClassifierToRun.add(classifiers.RandomTree);
-		//listOfClassifierToRun.add(classifiers.RandomForest);
+		listOfClassifierToRun.add(classifiers.RandomForest);
 		
 		for (classifiers classifierToUse : listOfClassifierToRun) {
 			switch (classifierToUse) {
@@ -186,9 +186,7 @@ public class Main {
 		for (Instance inst : testingSet) {
 			predictedClassValue = kdtknn.classify(inst);
 			realClassValue = inst.classValue();
-
-			System.out.println(predictedClassValue + ":" + realClassValue);
-
+			
 			if (predictedClassValue.equals(realClassValue))
 				correct++;
 			else
@@ -235,9 +233,7 @@ public class Main {
 		for (Instance inst : testingSet) {
 			predictedClassValue = mfvc.classify(inst);
 			realClassValue = inst.classValue();
-
-			System.out.println(predictedClassValue + ":" + realClassValue);
-
+			
 			if (predictedClassValue.equals(realClassValue))
 				correct++;
 			else
@@ -284,8 +280,6 @@ public class Main {
 		for (Instance inst : testingSet) {
 			predictedClassValue = nmc.classify(inst);
 			realClassValue = inst.classValue();
-
-			System.out.println(predictedClassValue + ":" + realClassValue);
 
 			if (predictedClassValue.equals(realClassValue))
 				correct++;
@@ -334,9 +328,7 @@ public class Main {
 		for (Instance inst : testingSet) {
 			predictedClassValue = som.classify(inst);
 			realClassValue = inst.classValue();
-
-			System.out.println(predictedClassValue + ":" + realClassValue);
-
+			
 			if (predictedClassValue.equals(realClassValue))
 				correct++;
 			else
@@ -384,9 +376,7 @@ public class Main {
 		for (Instance inst : testingSet) {
 			predictedClassValue = zr.classify(inst);
 			realClassValue = inst.classValue();
-
-			System.out.println(predictedClassValue + ":" + realClassValue);
-
+			
 			if (predictedClassValue.equals(realClassValue))
 				correct++;
 			else
@@ -433,6 +423,7 @@ public class Main {
 		for (Instance inst : testingSet) {
 			predictedClassValue = nbc.classify(inst);
 			realClassValue = inst.classValue();
+			
 			if (predictedClassValue.equals(realClassValue))
 				correct++;
 			else
@@ -479,6 +470,7 @@ public class Main {
 		for (Instance inst : testingSet) {
 			predictedClassValue = kdbc.classify(inst);
 			realClassValue = inst.classValue();
+			
 			if (predictedClassValue.equals(realClassValue))
 				correct++;
 			else
@@ -526,6 +518,7 @@ public class Main {
 			if (inst == null) break;
 			predictedClassValue = rt.classify(inst);
 			realClassValue = inst.classValue();
+			
 			if (predictedClassValue.equals(realClassValue))
 				correct++;
 			else
@@ -573,6 +566,7 @@ public class Main {
 			if (inst == null) break;
 			predictedClassValue = rf.classify(inst);
 			realClassValue = inst.classValue();
+			
 			if (predictedClassValue.equals(realClassValue))
 				correct++;
 			else
@@ -620,6 +614,7 @@ public class Main {
 			if (inst == null) break;
 			predictedClassValue = bg.classify(inst);
 			realClassValue = inst.classValue();
+			
 			if (predictedClassValue.equals(realClassValue))
 				correct++;
 			else
@@ -667,6 +662,7 @@ public class Main {
 			if (inst == null) break;
 			predictedClassValue = sb.classify(inst);
 			realClassValue = inst.classValue();
+			
 			if (predictedClassValue.equals(realClassValue))
 				correct++;
 			else
