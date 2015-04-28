@@ -34,10 +34,10 @@ public class Main {
 	};
 	
 	public static void main(String args[]) throws IOException {
-		String trainingSetPath = "data/iris.train";
-		String testingSetPath = "data/iris.test";
-		int noOfAttributes = 4;
-		int classValueIndex = 4;
+		String trainingSetPath = "data/titanic.train";
+		String testingSetPath = "data/titanic.test";
+		int noOfAttributes = 7;
+		int classValueIndex = 7;
 		String fieldSeparator = ",";
 		ArrayList<classifiers> listOfClassifierToRun;
 		
@@ -46,7 +46,7 @@ public class Main {
 		
 		listOfClassifierToRun = new ArrayList<classifiers>();
 		
-		listOfClassifierToRun.add(classifiers.KNearestNeighbors);
+		//listOfClassifierToRun.add(classifiers.KNearestNeighbors);
 		//listOfClassifierToRun.add(classifiers.KDtreeKNN);
 		//listOfClassifierToRun.add(classifiers.MeanFeatureVotingClassifier);
 		//listOfClassifierToRun.add(classifiers.NearestMeanClassifier);
@@ -57,7 +57,7 @@ public class Main {
 		//listOfClassifierToRun.add(classifiers.Bagging);
 		//listOfClassifierToRun.add(classifiers.SimpleBagging);
 		//listOfClassifierToRun.add(classifiers.RandomTree);
-		listOfClassifierToRun.add(classifiers.RandomForest);
+		//listOfClassifierToRun.add(classifiers.RandomForest);
 		
 		for (classifiers classifierToUse : listOfClassifierToRun) {
 			switch (classifierToUse) {
@@ -108,7 +108,7 @@ public class Main {
 		PerformanceMeasure pm;
 		int correct, wrong;
 		Object predictedClassValue, realClassValue;
-		
+		42
 		System.out.println("KNN Classifier");
 		
 		knn = new KNearestNeighbors(5);
